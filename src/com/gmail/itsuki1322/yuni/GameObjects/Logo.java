@@ -23,4 +23,8 @@ public class Logo
 		g.drawString("PONG", gameObject.WIDTH/2-270, gameObject.HEIGHT/2);
 	}
 	
+	public void deleteLogo()
+	{
+		bit8font = null;
+	}
 }

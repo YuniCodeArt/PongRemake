@@ -37,4 +37,5 @@ public class Game extends Canvas
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
+	
 }

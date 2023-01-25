@@ -3,10 +3,7 @@ package com.gmail.itsuki1322.yuni.Scenes;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -20,7 +17,7 @@ import com.gmail.itsuki1322.yuni.Game.Game;
 import com.gmail.itsuki1322.yuni.GameObjects.Logo;
 import com.gmail.itsuki1322.yuni.GameObjects.StartButton;
 import com.gmail.itsuki1322.yuni.GameObjects.TitleAudioPlayer;
-public class SceneTitle extends SceneDefault implements KeyListener, MouseListener, MouseMotionListener
+public class SceneTitle extends SceneDefault implements MouseListener, MouseMotionListener
 {
 	private Font bit8font;
 	private StartButton startButton;
@@ -29,18 +26,16 @@ public class SceneTitle extends SceneDefault implements KeyListener, MouseListen
 	public SceneTitle(Game gameObject)
 	{
 		super(gameObject);
-		gameObject.addKeyListener(this);
 		gameObject.addMouseListener(this);
 		gameObject.addMouseMotionListener(this);
 		try 
 		{
 			 bit8font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/8bitfont.ttf"));
-		     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		     ge.registerFont(bit8font);
 		} catch (IOException|FontFormatException e) 
 		{
-			System.out.println("Um erro ocorreu");
+			System.out.println("Um erro ocorreu na hora de carregar a font.");
 		}
+		
 		startButton = new StartButton(gameObject, bit8font);
 		logo = new Logo(gameObject, bit8font);
 		try {
@@ -58,11 +53,6 @@ public class SceneTitle extends SceneDefault implements KeyListener, MouseListen
 		start();
 	}
 	
-	void tick()
-	{
-		
-	}
-	
 	void render()
 	{
 		BufferStrategy bs = gameObject.getBufferStrategy();
@@ -72,40 +62,26 @@ public class SceneTitle extends SceneDefault implements KeyListener, MouseListen
 			return;
 		}
 		
-		Graphics g = layer.getGraphics();
+		Graphics2D g = (Graphics2D) layer.getGraphics();
 		g.setColor(new Color(19, 19, 19));
 		g.fillRect(0, 0, gameObject.WIDTH, gameObject.HEIGHT);
 		//Scene Graphics
 		logo.render(g);
 		startButton.render(g);
+		g.setColor(new Color(248, 248, 248));
+		g.setFont(bit8font.deriveFont(40f));
+		g.drawString("FPS: "+fps, 10, 40);
 		//Scene Graphics
 		g.dispose();
-		g = bs.getDrawGraphics();
+		g = (Graphics2D) bs.getDrawGraphics();
 		g.drawImage(layer, 0, 0, gameObject.WIDTH, gameObject.HEIGHT, null);
 		bs.show();
 	}
 
 	void removeHandlers()
 	{
-		gameObject.removeKeyListener(this);
 		gameObject.removeMouseListener(this);
 		gameObject.removeMouseMotionListener(this);
-	}
-	
-
-	public void keyTyped(KeyEvent e) 
-	{
-		
-	}
-
-	public void keyPressed(KeyEvent e) 
-	{
-		
-	}
-
-	public void keyReleased(KeyEvent e)
-	{
-		
 	}
 
 	@Override
@@ -144,8 +120,8 @@ public class SceneTitle extends SceneDefault implements KeyListener, MouseListen
 		{
 			removeHandlers();
 			titlemusic.stop();
-			stop();	
-			new SceneGame(gameObject);
+			stop();
+			new SceneSelectionMode(gameObject);
 		}
 	}
 

@@ -18,13 +18,6 @@ public class StartButton extends Rectangle
 	private Font bit8font;
 	public Color buttonColor;
 	public boolean clickable = false;
-	private int calculatePercentage(int percent, int value)
-	{
-		int percentage = (int)(value*(percent/100.0f));
-		
-		return percentage;
-		
-	}	
 	public StartButton(Game gameObject, Font bit8font)
 	{
 		super(0, 0, 200, 40);
@@ -50,4 +43,12 @@ public class StartButton extends Rectangle
 		g.setFont(bit8font.deriveFont(45f));
 		g.drawString("PLAY", gameObject.WIDTH/2-65, gameObject.HEIGHT/2+height/2+85);
 	}
+	
+	private int calculatePercentage(int percent, int value)
+	{
+		int percentage = (int)(value*(percent/100.0f));
+		
+		return percentage;
+		
+	}	
 }
