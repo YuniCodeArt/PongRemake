@@ -13,7 +13,7 @@ public class Game extends Canvas
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public final int WIDTH = 720, HEIGHT = 480;
+	public final int WIDTH = 720, HEIGHT = 500;
 	public JFrame frame;
 	public Game()
 	{
